@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 const appId = '74ded8a2e51c474483a0f8d3231ba2ee';
 String token =
-    "00674ded8a2e51c474483a0f8d3231ba2eeIACqB0G930PRCBFFm2JdQcGBg3bPW9DG3HrfEUX/bkufFMJBJDUAAAAAEADjTvSOZuo1YgEAAQBn6jVi";
+    "00674ded8a2e51c474483a0f8d3231ba2eeIADGx5nZqn5y0uRKZn+VTKSGRt8UlmhUW3EKSiW3xxi9S8JBJDUAAAAAEADnfDPKalE3YgEAAQBqUTdi";
 
 class VideoCall extends StatefulWidget {
   const VideoCall({
@@ -87,7 +87,7 @@ class _VideoCallState extends State<VideoCall> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Color(0xFF223A5E),
+        backgroundColor: const Color(0xFF223A5E),
         title: const Text('Online Consultation'),
       ),
       body: Stack(
@@ -119,22 +119,21 @@ class _VideoCallState extends State<VideoCall> {
                   ),
                   shape: const CircleBorder(),
                   elevation: 2.0,
-                  fillColor: Color(0xFF223A5E).withOpacity(0.8),
+                  fillColor: const Color(0xFF223A5E).withOpacity(0.8),
                   padding: const EdgeInsets.all(12.0),
                 ),
                 RawMaterialButton(
                   onPressed: _onToggleMute,
                   child: Icon(
                     muted ? Icons.mic_off : Icons.mic,
-                    color: Colors.white ,
+                    color: Colors.white,
                     size: 30.0,
                   ),
                   shape: const CircleBorder(),
                   elevation: 2.0,
-                  fillColor:Color(0xFF223A5E).withOpacity(0.8),
+                  fillColor: const Color(0xFF223A5E).withOpacity(0.8),
                   padding: const EdgeInsets.all(12.0),
                 ),
-                
                 RawMaterialButton(
                   onPressed: _onSwitchCamera,
                   child: const Icon(
@@ -144,7 +143,7 @@ class _VideoCallState extends State<VideoCall> {
                   ),
                   shape: const CircleBorder(),
                   elevation: 2.0,
-                  fillColor:Color(0xFF223A5E).withOpacity(0.8),
+                  fillColor: const Color(0xFF223A5E).withOpacity(0.8),
                   padding: const EdgeInsets.all(12.0),
                 ),
                 RawMaterialButton(
@@ -168,7 +167,7 @@ class _VideoCallState extends State<VideoCall> {
   }
 
   Widget _renderLocalPreview() {
-    return const RtcLocalView.SurfaceView();
+    return RtcLocalView.SurfaceView();
   }
 
   Widget _renderRemoteVideo() {
