@@ -2,11 +2,12 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 const appId = '74ded8a2e51c474483a0f8d3231ba2ee';
 String token =
-    "00674ded8a2e51c474483a0f8d3231ba2eeIADGx5nZqn5y0uRKZn+VTKSGRt8UlmhUW3EKSiW3xxi9S8JBJDUAAAAAEADnfDPKalE3YgEAAQBqUTdi";
+    "00674ded8a2e51c474483a0f8d3231ba2eeIADw5bVtDkHfsWh/7Jx42FEE+au+CJ76xUDMv2DR0ECuwMJBJDUAAAAAEAC5YzmxcYdVYgEAAQBwh1Vi";
 
 class VideoCall extends StatefulWidget {
   const VideoCall({
@@ -33,12 +34,21 @@ class _VideoCallState extends State<VideoCall> {
     await [Permission.microphone, Permission.camera].request();
     _engine = await RtcEngine.create(appId);
     await _engine.enableVideo();
-
+    print('local *******************video call');
+    
+    _engine.enableLocalVideo(true).then((value) {
+      // print(value.toString());
+      print('#################################printing value');
+    });
+    // print('***********************************########################${_engine.getConnectionState().toString()}');
     _engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (channel, uid, elapsed) {
           print('local user joined: $channel, $uid, $elapsed');
         },
+        // localVideoStats: (stats) {
+        //   print('local *******************video stats: $stats');
+        // },
         userJoined: (int uid, int elapsed) {
           print('remote user Joined: $uid, $elapsed');
           setState(() {
@@ -167,7 +177,7 @@ class _VideoCallState extends State<VideoCall> {
   }
 
   Widget _renderLocalPreview() {
-    return RtcLocalView.SurfaceView();
+    return const RtcLocalView.SurfaceView();
   }
 
   Widget _renderRemoteVideo() {
