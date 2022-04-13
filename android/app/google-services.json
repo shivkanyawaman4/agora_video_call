@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "790841523559",
+    "project_id": "agora-video-call-d7a1e",
+    "storage_bucket": "agora-video-call-d7a1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790841523559:android:6b3194a0c5b756e5d143c2",
+        "android_client_info": {
+          "package_name": "com.example.agora_video_call"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790841523559-6d80qu1urs8atgp19dshpdslrv06d303.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw3hGuVfbBpxEqG0wUKHBiqs43x4-Rx08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790841523559-6d80qu1urs8atgp19dshpdslrv06d303.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

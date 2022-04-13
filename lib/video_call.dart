@@ -2,7 +2,6 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 const appId = '74ded8a2e51c474483a0f8d3231ba2ee';
@@ -34,15 +33,19 @@ class _VideoCallState extends State<VideoCall> {
     await [Permission.microphone, Permission.camera].request();
     _engine = await RtcEngine.create(appId);
     await _engine.enableVideo();
-    print('local *******************video call');
-    
-    _engine.enableLocalVideo(true).then((value) {
-      // print(value.toString());
-      print('#################################printing value');
-    });
+    await _engine.setChannelProfile(ChannelProfile.Communication);
+    await _engine.setClientRole(ClientRole.Broadcaster);
+    ClientRoleOptions options = ClientRoleOptions(
+      audienceLatencyLevel: AudienceLatencyLevelType.UltraLowLatency,
+    );
+
+    await _engine.setClientRole(ClientRole.Audience, options);
     // print('***********************************########################${_engine.getConnectionState().toString()}');
     _engine.setEventHandler(
       RtcEngineEventHandler(
+        error: (err) {
+          print('error: $err');
+        },
         joinChannelSuccess: (channel, uid, elapsed) {
           print('local user joined: $channel, $uid, $elapsed');
         },
@@ -55,6 +58,13 @@ class _VideoCallState extends State<VideoCall> {
             _remoteUid = uid;
           });
         },
+        leaveChannel: (stats) {},
+        firstRemoteVideoFrame: (uid, width, height, elapsed) {
+          print('first remote video frame: $uid, $width, $height, $elapsed');
+          setState(() {
+            _remoteUid = uid;
+          });
+        },
         userOffline: (int uid, UserOfflineReason reason) {
           print('remote user left channel: $uid, $reason');
           setState(() {
@@ -63,6 +73,13 @@ class _VideoCallState extends State<VideoCall> {
         },
       ),
     );
+    await _engine.enableWebSdkInteroperability(true);
+    VideoEncoderConfiguration encoderConfiguration =
+        VideoEncoderConfiguration();
+    encoderConfiguration.dimensions =
+        VideoDimensions(width: 1920, height: 1080);
+
+    await _engine.setVideoEncoderConfiguration(encoderConfiguration);
     await _engine.joinChannel(token, 'abc', null, 0);
   }
 
@@ -107,12 +124,17 @@ class _VideoCallState extends State<VideoCall> {
           ),
           Align(
               alignment: Alignment.topLeft,
-              child: SizedBox(
-                height: 100,
-                width: 100,
-                child: Center(
-                  child: _renderLocalPreview(),
-                ),
+              child: LayoutBuilder(
+
+                builder: (context, constraints) {
+                  return SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Center(
+                      child: _renderLocalPreview(),
+                    ),
+                  );
+                }
               )),
           Container(
             alignment: Alignment.bottomCenter,
@@ -177,7 +199,7 @@ class _VideoCallState extends State<VideoCall> {
   }
 
   Widget _renderLocalPreview() {
-    return const RtcLocalView.SurfaceView();
+    return const RtcLocalView.SurfaceView.screenShare();
   }
 
   Widget _renderRemoteVideo() {

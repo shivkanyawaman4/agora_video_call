@@ -37,6 +37,9 @@ dependencies:
   agora_rtc_engine: ^5.0.1
   permission_handler: ^9.2.0
   js: ^0.6.3
+  firebase_messaging: ^11.2.12
+  flutter_local_notifications: ^9.4.0
+  firebase_core: ^1.14.0
   
 dev_dependencies:
   flutter_test:
